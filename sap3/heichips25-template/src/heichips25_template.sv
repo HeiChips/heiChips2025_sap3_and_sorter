@@ -38,7 +38,7 @@ module heichips25_template (
     assign uo_out[0] = mem_ram_we;
     assign uo_out[1] = mem_mar_we;
     assign uo_out[2] = temp;
-    assign uo_out[3:7] = 5'b0; // Unused outputs
+    assign uo_out[7:3] = 5'b0; // Unused outputs
 
     top sap_3_inst (
         .CLK(clk),
