@@ -7,9 +7,8 @@
 `include "clock.v"
 `include "controller.v"
 `include "ir.v"
-`include "memory.v"
 `include "reg_file.v"
-`include "serializer.v"
+`include "serializer.sv"
 `include "top.v"
 
 `default_nettype none
