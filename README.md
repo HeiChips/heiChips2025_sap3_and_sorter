@@ -1,5 +1,18 @@
 # heiChips2025_project
 
+## Submission draft
+
+(To be submitted as an issue [here](https://github.com/FPGA-Research/heichips25-tapeout/issues))
+
+```
+- Group name
+- Project name "8 bit CPU + eFPGA/sorter"
+- Group members: Philippos Papaphilippou (pp1d24@soton.ac.uk), Deepak Bathija (b2deepak@gmail.com), Moritz Stenner, Malte Bauer, Enrica Schmidt (enrica.schmidt@stud.uni-heidelberg.de) 
+- Repository links:
+(slot 1 - core): https://github.com/bamalte/heiChips2025_project/tree/main/sap3/heichips25-template
+(slot 2 - accelerator): https://github.com/bamalte/heiChips2025_project/tree/main/heichips25_top_sorter
+```
+
 ## Project idea
 Our project idea was to fit a small 8-bit core on our tile. We wanted to use the SRAM on the chip as RAM for our core and the FPGA fabric for routing between the core and SRAM, and for housing an acceleator.
 On our quest to finding a suitable small core, we found the **SAP (Simple-As-Possible Computer)** core. This was first described in the book "Digital Computer Electronics" by Albert Paul Malvino and Jerald A. Brown. SAP-2 and 3 are Turing-complete [[1]](#ref1). There is source code under an MIT license and an extensive documentation by Austin Morlan available under [[2-5]](#ref5). This was the starting point for this project.
