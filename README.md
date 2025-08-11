@@ -9,8 +9,8 @@
 - Project name "8 bit CPU + eFPGA/sorter"
 - Group members: Philippos Papaphilippou (pp1d24@soton.ac.uk), Deepak Bathija (b2deepak@gmail.com), Moritz Stenner, Malte Bauer, Enrica Schmidt (enrica.schmidt@stud.uni-heidelberg.de) 
 - Repository links:
-(slot 1 - core):
-(slot 2 - accelerator):
+(slot 1 - core): https://github.com/bamalte/heiChips2025_project/tree/main/sap3/heichips25-template
+(slot 2 - accelerator): https://github.com/bamalte/heiChips2025_project/tree/main/heichips25_top_sorter
 ```
 
 ## Project idea
