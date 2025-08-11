@@ -3,12 +3,13 @@
 
 // Adapted from the Tiny Tapeout template
 
-`include "reg_file.v"
-`include "memory.v"
-`include "ir.v"
-`include "controller.v"
-`include "clock.v"
 `include "alu.v"
+`include "clock.v"
+`include "controller.v"
+`include "ir.v"
+`include "memory.v"
+`include "reg_file.v"
+`include "serializer.v"
 `include "top.v"
 
 `default_nettype none
@@ -30,25 +31,41 @@ module heichips25_template (
     wire [15:0] bus;
     wire mem_ram_we;
     wire mem_mar_we;
-    wire [7:0] out_unused;
-    wire temp = out_unused[0] ^ out_unused[1] ^ out_unused[2] ^ out_unused[3] ^ out_unused[4] ^ out_unused[5] ^ out_unused[6] ^ out_unused[7];
+    wire [7:0] sap_3_outputReg;
+    wire sap_3_outputReg_serial;
+    wire sap_3_outputReg_start_sync;
 
     assign uio_out = bus[7:0]; 
     assign uio_oe = bus [15:8];
     assign uo_out[0] = mem_ram_we;
     assign uo_out[1] = mem_mar_we;
-    assign uo_out[2] = temp;
-    assign uo_out[7:3] = 5'b0; // Unused outputs
+    assign uo_out[2] = sap_3_outputReg_serial;
+    assign uo_out[7:3] = 5'b0;
+
+    logic clk_div_out;
+    clk_div_param #(
+        .DIVIDE_BY(2)
+    ) clk_div_param_inst (
+        .clk(clk),
+        .rst_n(rst_n),
+        .clk_out(clk_div_out)
+    );
 
     top sap_3_inst (
-        .CLK(clk),
+        .CLK(clk_div_out),
         .rst(~rst_n),
-        .out(out_unused),
+        .out(sap_3_outputReg),
         .mem_out(ui_in),
         .bus(bus),
         .mem_ram_we(mem_ram_we),
         .mem_mar_we(mem_mar_we)
     );
 
+    serializer #(.WIDTH(8)) u_ser (
+        .clk        (clk),
+        .rst        (~rst_n),
+        .data_in    (sap_3_outputReg),
+        .serial_out (sap_3_outputReg_serial)
+    );
 
 endmodule
