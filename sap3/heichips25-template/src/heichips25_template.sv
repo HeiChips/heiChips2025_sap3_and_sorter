@@ -4,6 +4,7 @@
 // Adapted from the Tiny Tapeout template
 
 `include "alu.v"
+`include "clk_div_param.sv"
 `include "clock.v"
 `include "controller.v"
 `include "ir.v"
