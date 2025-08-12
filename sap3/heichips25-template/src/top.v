@@ -1,11 +1,14 @@
 module top(
 	input CLK,
+	input fast_clock,
 	input rst,
 	output reg [7:0] out,
 	input [7:0] mem_out,
 	output reg [15:0] bus,
 	output wire mem_ram_we,
-	output wire mem_mar_we
+	output wire mem_mar_we,
+	output wire serial_out_regFile,
+	output wire serial_start_regFile
 	);
 
 reg[23:0] clk_slow;
@@ -64,13 +67,16 @@ clock clock(
 
 reg_file reg_file(
 	.clk(clk),
+	.fast_clock(fast_clock),
 	.rst(rst),
 	.rd_sel(reg_rd_sel),
 	.wr_sel(reg_wr_sel),
 	.ext(reg_ext),
 	.we(reg_we),
 	.data_in(bus),
-	.data_out(reg_out)
+	.data_out(reg_out),
+	.serial_out(serial_out_regFile),
+	.start(serial_start_regFile)
 );
 
 ir ir(
