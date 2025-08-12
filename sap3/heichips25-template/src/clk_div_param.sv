@@ -33,7 +33,7 @@ module clk_div_param #(
             count <= '0;
             clk_out <= 1'b0;
         end else begin
-            if (count == DIVIDE_BY/2 - 1) begin
+            if (count == logic' (DIVIDE_BY/2 - 1)) begin
                 clk_out <= ~clk_out;
                 count <= 0;
             end else begin
