@@ -11,7 +11,6 @@ module top(
 	output wire serial_start_regFile
 	);
 
-reg[23:0] clk_slow;
 wire hlt;
 wire clk;
 wire[4:0] reg_rd_sel;
@@ -38,9 +37,9 @@ wire display;
 
 always @(posedge clk, posedge rst) begin
 	if (rst) begin
-		out = 8'b0;
+		out <= 8'b0;
 	end else if (display) begin
-		out = alu_out;
+		out <= alu_out;
 	end
 end
 

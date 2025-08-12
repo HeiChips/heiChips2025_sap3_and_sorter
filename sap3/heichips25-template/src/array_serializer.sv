@@ -62,6 +62,10 @@ module array_serializer #(
                         serial_out <= shadow_reg[bit_pos + 1];
                     end
                 end
+
+                default: begin
+                    state <= IDLE;
+                end
             endcase
         end
     end

@@ -3,15 +3,7 @@
 
 // Adapted from the Tiny Tapeout template
 
-`include "alu.v"
-`include "array_serializer.sv"
-`include "clk_div_param.sv"
-`include "clock.v"
-`include "controller.v"
-`include "ir.v"
-`include "reg_file.v"
-`include "serializer.sv"
-`include "top.v"
+// BRANCH: main
 
 `default_nettype none
 
@@ -27,7 +19,7 @@ module heichips25_template (
 );
 
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena};
+    wire _unused = &{ena, uio_in};
 
     wire [15:0] bus;
     wire mem_ram_we;
