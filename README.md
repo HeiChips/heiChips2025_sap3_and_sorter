@@ -116,7 +116,7 @@ The source code for all three SAP versions can be found here: [[5]](#ref5)
 ## Custom instruction / accelerator
 
 ## Debug
-TODO
+The register file is serialized and output. Building a deserializer (see reference for testbench) all registers can be evaluated on runtime. As the serializer needs 10 clock cycles per register (thereby 120 clock cycles for the whole register file) the serializer is operated with the not divided clock. If the register change to fast to debug them nops can be inserted to halt the processor and evaluate the registers.
 
 ## TODOs
 
