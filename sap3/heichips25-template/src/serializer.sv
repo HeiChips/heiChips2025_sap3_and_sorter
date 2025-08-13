@@ -1,21 +1,13 @@
-//------------------------------------------------------------------------------
-// Module: serializer
-// Description: 
-//   This module converts parallel input data into a serial output stream.
-//   On each clock cycle, it outputs one bit of the input data, cycling through
-//   all bits from LSB to MSB. The bit position resets after reaching the last bit
-//   or when reset is asserted.
-//
-// Parameters:
-//   WIDTH - Width of the parallel input data (default: 8)
-//
-// Ports:
-//   clk        (input)  - Clock signal
-//   rst        (input)  - Asynchronous reset signal (active high)
-//   data_in    (input)  - Parallel data input of width WIDTH
-//   serial_out (output) - Serial output bit
-//------------------------------------------------------------------------------
-
+/*
+ * This file is part of heichips25_sap3, licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for full license text.
+ *
+ * Portions of this file are derived from the SAP processor implementation
+ * by Austin Morlan, licensed under the MIT License (MIT).
+ * See the LICENSE file in the project root for the full MIT License text.
+ *
+ * Modifications © [2025] [Moritz Schridde, Enrica Schmidt, Philippos Papaphilippou, Deepak Bathija, Malte Bauer]
+ */
 
 module serializer #(
     parameter WIDTH = 8
