@@ -20,9 +20,8 @@ set_max_capacitance 0.5 [current_design]
 set_max_transition 3 [current_design]
 set_max_area 0
 set clk_input $::env(CLOCK_PORT)
-create_clock [get_ports $clk_input]  -name clk -period 20.0 -waveform {0 10.0}
+create_clock [get_ports $clk_input]  -name clk -period 10.0 -waveform {0 10.0}
 set_clock_uncertainty 0.15 [get_clocks clk]
 set_clock_transition 0.25 [get_clocks clk]
 
-
-create_generated_clock -name clk_div_two -source {clk} -divide_by 2 [get_pins _4208_/Q]
+create_generated_clock -name clk_div_two -source {clk} -divide_by 2 [get_pins _4213_/Q]
