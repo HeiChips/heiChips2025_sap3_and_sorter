@@ -13,7 +13,11 @@ from cocotb.triggers import Timer, ClockCycles
 
 @cocotb.test()
 async def sap_three_test_output(dut):
-    """Testing the counter of the design."""
+    print("****************************************************************************************************** \n" \
+          "* Test the general functionality of the processor by letting the test program code run and validate  * \n" \
+          "* that the desired output on the output register is produced.                                        * \n" \
+          "****************************************************************************************************** \n")
+
     
     # Create a clock with a period of 10ns = 100MHz
     clock = Clock(dut.clk, 10, 'ns')
@@ -141,6 +145,9 @@ async def sap_three_test_output(dut):
 
 @cocotb.test()
 async def sap_three_test_serializer(dut):
+    print("****************************************************************************************************** \n" \
+          "* Test the serializer of the output register                                                         * \n" \
+          "****************************************************************************************************** \n")
     
     # Clock starten
     clock = Clock(dut.clk, 10, 'ns')
