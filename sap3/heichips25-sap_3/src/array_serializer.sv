@@ -16,8 +16,8 @@ module array_serializer #(
     input  logic                  clk,
     input  logic                  rst,
     input  logic [DEPTH*WIDTH-1:0] data_flat,
-    output logic                  serial_out,        // serieller Ausgang
-    output logic                  start              // Start-Puls vor jedem Byte
+    output logic                  serial_out,        // serial output
+    output logic                  start              // Start pulse before each byte
 );
 
     typedef enum logic [1:0] {IDLE, START_PULSE, SEND_BITS} state_t;
@@ -25,7 +25,7 @@ module array_serializer #(
 
     logic [$clog2(WIDTH)-1:0] bit_pos;
     logic [WIDTH-1:0]         shadow_reg;
-    logic [$clog2(DEPTH)-1:0] word_index; // aktueller Index im Array
+    logic [$clog2(DEPTH)-1:0] word_index; // current index in array
 
     logic [WIDTH-1:0] data [0:DEPTH-1];
     genvar i;
@@ -46,28 +46,28 @@ module array_serializer #(
         end else begin
             case (state)
                 IDLE: begin
-                    // Neues Wort ins Shadow-Register übernehmen
+                    // New word into shadow register
                     shadow_reg <= data[word_index];
-                    start      <= 1'b1;    // Startsignal 1 Takt vor Bit 0
+                    start      <= 1'b1;    // Start signal 1 clock before bit 0
                     state      <= START_PULSE;
                 end
 
                 START_PULSE: begin
-                    start      <= 1'b0;    // Start-Puls wieder aus
-                    bit_pos    <= 0;       // Zähler zurücksetzen
+                    start      <= 1'b0;    // Start pulse off
+                    bit_pos    <= 0;       // Reset counter
                     serial_out <= shadow_reg[0];
                     state      <= SEND_BITS;
                 end
 
                 SEND_BITS: begin
                     if (bit_pos == WIDTH-1) begin
-                        // Nächstes Wort vorbereiten (kontinuierlich)
+                        // Prepare next word (continuous)
                         if (word_index == DEPTH-1)
                             word_index <= 0;
                         else
                             word_index <= word_index + 1;
 
-                        state <= IDLE; // direkt wieder neues Wort starten
+                        state <= IDLE; // directly start new word
                     end else begin
                         bit_pos    <= bit_pos + 1;
                         serial_out <= shadow_reg[bit_pos + 1];

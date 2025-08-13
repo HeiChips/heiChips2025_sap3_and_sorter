@@ -35,22 +35,22 @@ module serializer #(
         end else begin
             case (state)
                 IDLE: begin
-                    // Neues Wort ins Shadow-Register übernehmen
+                    // mirror new word into shadow register
                     shadow_reg <= data_in;
-                    start      <= 1'b1;    // Startsignal jetzt 1 Takt vor Bit 0
+                    start      <= 1'b1;    // Start signal 1 clock before bit 0
                     state      <= START_PULSE;
                 end
 
                 START_PULSE: begin
-                    start      <= 1'b0;    // Start-Puls wieder aus
-                    bit_pos    <= 0;       // Zähler zurücksetzen
+                    start      <= 1'b0;    // Start pulse off
+                    bit_pos    <= 0;       // Reset counter
                     serial_out <= shadow_reg[0];
                     state      <= SEND_BITS;
                 end
 
                 SEND_BITS: begin
                     if (bit_pos == WIDTH-1) begin
-                        state <= IDLE;     // Nach letztem Bit wieder von vorne
+                        state <= IDLE;     // After last bit, start over
                     end else begin
                         bit_pos    <= bit_pos + 1;
                         serial_out <= shadow_reg[bit_pos + 1];

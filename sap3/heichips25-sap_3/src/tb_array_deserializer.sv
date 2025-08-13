@@ -4,9 +4,9 @@ module array_deserializer #(
 ) (
     input  logic                  clk,
     input  logic                  rst,
-    input  logic                  serial_in,        // Serieller Datenstrom
-    input  logic                  start,            // Startsignal (1 Takt vor Bit 0)
-    output logic [WIDTH-1:0]      data_out          // Empfangene Daten
+    input  logic                  serial_in,        // serial data out
+    input  logic                  start,            // Start signal (1 clock before bit 0)
+    output logic [WIDTH-1:0]      data_out          // Received data
 );
 
     typedef enum logic [1:0] {IDLE, RECEIVE, WRITE} state_t;
@@ -22,7 +22,7 @@ module array_deserializer #(
             bit_cnt    <= '0;
             word_index <= '0;
             shift_reg  <= '0;
-            // Initialisierung data_out ist optional, je nach Anforderung
+            // Initialization of data_out is optional, depending on requirements
         end else begin
             case (state)
                 IDLE: begin
