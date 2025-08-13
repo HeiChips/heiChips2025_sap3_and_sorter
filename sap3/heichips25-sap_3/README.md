@@ -156,13 +156,13 @@ The issue should contain the following information:
 
 Checklist:
 
-- [ ] The project top-level has a unique name starting with `heichips25_`.
-- [ ] The design is verified and tested.
+- [x] The project top-level has a unique name starting with `heichips25_`.
+- [x] The design is verified and tested.
 - [ ] The macro is stored under `macro/`.
-- [ ] `TopMetal2` in the macro is empty (for integration).
-- [ ] The macro is DRC clean (minimal DRC set without fill checks).
-- [ ] The macro uses the default power pins (VPWR, VGND).
-- [ ] The project is licensed under Apache 2.0.
+- [x] `TopMetal2` in the macro is empty (for integration).
+- [x] The macro is DRC clean (minimal DRC set without fill checks).
+- [x] The macro uses the default power pins (VPWR, VGND).
+- [x] The project is licensed under Apache 2.0.
 
 ## License
 
