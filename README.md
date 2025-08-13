@@ -109,21 +109,23 @@ hlt
   <figcaption>Figure 5: The physical implementation of the SAP-3 on our tile.</figcaption>
 </figure>
 
-
 The source code for all three SAP versions can be found here: [[5]](#ref5)
 
 ## Memory interface 
 
 ## Custom instruction / accelerator
 
+## Debug
+TODO
+
 ## TODOs
 
 - [ ] Simulation
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
+- [ ] Debug docu
+
+## License
+
+The code in this repository is licensed under Apache 2.0. See LICENSE file for more information.
 
 ## References
 [1] <a id="ref1"> Wikipedia SAP computer https://en.wikipedia.org/wiki/Simple-As-Possible_computer   
