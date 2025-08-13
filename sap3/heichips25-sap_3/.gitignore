@@ -7,7 +7,6 @@ runs/
 *.o
 *.elf
 *.bin
-*.hex
 
 ice40hx8k.json
 ice40hx8k.asc
