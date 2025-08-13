@@ -49,7 +49,7 @@ module serializer #(
                 end
 
                 SEND_BITS: begin
-                    if (bit_pos == logic' (WIDTH-1)) begin
+                    if (bit_pos == WIDTH-1) begin
                         state <= IDLE;     // Nach letztem Bit wieder von vorne
                     end else begin
                         bit_pos    <= bit_pos + 1;
