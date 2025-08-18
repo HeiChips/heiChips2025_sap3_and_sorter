@@ -52,7 +52,7 @@ The SAP-3 [[4]](#ref4) uses the same instruction set as the Intel 8085, but omit
 For the implementation, we modified the core so that its memory is not inside of the core anymore. Instead we are using the SRAM we have on the chip. So all the signals going to and coming from SRAM are routed through the FPGA fabric to the core. We had to find a way to pass everything through the few pins we have between tile and FPGA fabric. 
 <figure>
   <img src="drawings/system_overview.svg" alt="">
-  <figcaption>Figure 7: System overview </figcaption>
+  <figcaption>Figure 4: System overview </figcaption>
 </figure>
 
 ### Simulation
@@ -95,7 +95,7 @@ ret
 
 hlt
  ```
- [Fig 4: the example program for SAP-3 (taken from [2]) is calculating a Walking one/ Cylon eye effect](#ref2)  
+ [Fig 5: the example program for SAP-3 (taken from [2]) is calculating a Walking one/ Cylon eye effect](#ref2)  
  Running the testbench, the SAP-3's 8-bit output is a walking one. This is shown below.
 <figure>
   <img src="drawings/waveforms_sap3_top.png" alt="">
@@ -106,10 +106,55 @@ hlt
 
 <figure>
   <img src="drawings/sap-3.png" alt="">
-  <figcaption>Figure 5: The physical implementation of the SAP-3 on our tile.</figcaption>
+  <figcaption>Figure 7: The physical implementation of the SAP-3 on our tile.</figcaption>
 </figure>
 
 The source code for all three SAP versions can be found here: [[5]](#ref5)
+## Instruction Set
+SAP-3 supports 229 instructions. The entire Intel 8085 instruction set consists of 256 instructions. Therefore only 27 instructions are not supported. This can be seen by comparing the two tables below with the SAP-3 and Intel 8085 instructions. The 27 unsupported instructions are: 
+```
+1   ARHL
+2   RIM
+3   SIM
+4   DSUB
+5   RDEL
+6   LDHI d8
+7   LDSI d8
+8   XTHL
+9   DI
+10  RST 0
+11  RST 2
+12  RST 4
+13  RST 6
+14  SHLX
+15  PCHL
+16  SPHL
+17  RSTV
+18  IN d8
+19  XCHG
+20  EI
+21  JNK a16
+22  LHLX
+23  JK a16
+24  RST 1
+25  RST 3
+26  RST 5
+27  RST 7
+```
+<figure>
+  <img src="drawings/sap-3-instructions.png" alt="">
+  <figcaption>Figure 8: instructions supported by SAP-3 (from [6])</figcaption>
+</figure>
+
+<figure>
+  <img src="drawings/intel8085-instructions.png" alt="">
+  <figcaption>Figure 9: Intel 8085 assembly instructions (from [7])</figcaption>
+</figure>
+
+### Compiler and Assembler
+The SmallC-85 compiler [[8]](#ref8) could be used to compile C code to 8085 assembly. The downside of this is, that it uses old C syntax so the program to be compiled needs to match this old syntax. And it might also generate assembly code that uses some of the 27 instructions, that are not supported on SAP-3. So the assembly code would need to be postprocessed manually to replace the unsupported instructions by equivalent, supported code blocks. Also, it uses #s instead of $s for the immediates, which would also need to be changed by a script or manually. Alternatively, the compiler could be modified.  
+For the fib.s assembly program, the assembly code was written directly, since for a small program, this is easier than the way described above.
+The assembly code is translated to machine code using the Pretty-8080-assembler [[9]](#ref9). This machine code is then used to initialize the memory.
 
 ## Memory interface 
 
@@ -133,3 +178,7 @@ The code in this repository is licensed under Apache 2.0. See LICENSE file for m
 [3] <a id="ref3"> Blog post to Austin Morlan's SAP-2 https://austinmorlan.com/posts/fpga_computer_sap2  
 [4] <a id="ref4"> Blog post to Austin Morlan's SAP-3 https://austinmorlan.com/posts/fpga_computer_sap3  
 [5] <a id="ref5"> Source code for Austin Morlan's SAP-1,2,3 https://code.austinmorlan.com/austin/2023-fpga-computer  
+[6] <a id="ref6"> SAP-3 instructions https://austinmorlan.com/posts/fpga_computer_sap3/media/instruction_set_hex.png  
+[7] <a id="ref7"> Intel 8085 instructions https://pastraiser.com/cpu/i8085/i8085_opcodes.html  
+[8] <a id="ref8"> SmallC-85 compiler https://github.com/ncb85/SmallC-85  
+[9] <a id="ref9"> Pretty-8080-assembler https://svofski.github.io/pretty-8080-assembler
