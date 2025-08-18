@@ -1,5 +1,7 @@
 # heiChips2025_project
 
+Click [here](heichips25_pres_online.pdf) for the presentation PDF.
+
 ## Submission
 
 (Submitted as an issue [here](https://github.com/FPGA-Research/heichips25-tapeout/issues))
