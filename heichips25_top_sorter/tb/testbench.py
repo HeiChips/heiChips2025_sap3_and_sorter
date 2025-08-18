@@ -20,8 +20,8 @@ Input_Size = N+100 # if > N (i.e. sorter size), it works as a top N module
 async def counter_test(dut):
     """Testing the design."""
     
-    # Create a clock with a period of 10ns = 100MHz
-    clock = Clock(dut.clk, 10, 'ns')
+    # Create a clock with a period of 7 (10ns = 100MHz)
+    clock = Clock(dut.clk, 7, 'ns')
     await cocotb.start(clock.start())
 
     dut.ena.value    = 1 # always 1

@@ -9,7 +9,7 @@ The sorter design needs the following signals:
 - 1 bit for flush (to extract the results one by one)
 
 Implemented capacity: 28 8-bit numbers
-Operating frequency: 100 MHz
+Operating frequency: 143 MHz (can also be clocked lower to interface with the other projects)
 
 # HeiChips 2025 Hackathon Template
 
