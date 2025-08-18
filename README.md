@@ -17,6 +17,8 @@
 Our project idea was to fit a small 8-bit core on our tile. We wanted to use the SRAM on the chip as RAM for our core and the FPGA fabric for routing between the core and SRAM, and for housing an acceleator.
 On our quest to finding a suitable small core, we found the **SAP (Simple-As-Possible Computer)** core. This was first described in the book "Digital Computer Electronics" by Albert Paul Malvino and Jerald A. Brown. SAP-2 and 3 are Turing-complete [[1]](#ref1). There is source code under an MIT license and an extensive documentation by Austin Morlan available under [[2-5]](#ref5). This was the starting point for this project.
 
+This project also includes a [sorter](https://github.com/bamalte/heiChips2025_project/tree/main/heichips25_top_sorter) as a co-processor for a proof of concept, also working as a stand-alone accelerator.
+
 ## First Approach: SAP-1 
 In our quest to finding a suitable small core, we found the SAP-1 implementation by Austin Morlan [[2]](#ref2). It is a very minimal 8-bit core with 8-bit instructions and two 8-bit registers. Aside from the registers, it has an adder module, a PC, an instruction register, a memory and a controller. Those modules communicate through an 8-bit bus. Austin Morlan's SAP-1 implementation only supports 4 instructions: 
 ```
@@ -156,9 +158,22 @@ The SmallC-85 compiler [[8]](#ref8) could be used to compile C code to 8085 asse
 For the fib.s assembly program, the assembly code was written directly, since for a small program, this is easier than the way described above.
 The assembly code is translated to machine code using the Pretty-8080-assembler [[9]](#ref9). This machine code is then used to initialize the memory.
 
-## Memory interface 
+<!--## Memory interface 
 
-## Custom instruction / accelerator
+## Custom instruction / accelerator-->
+
+## Accelerator: top sorter
+
+[This](https://github.com/bamalte/heiChips2025_project/tree/main/heichips25_top_sorter) design implements a top N sorter (either sorting or finding top N elements). It is based on a submodule from a high-throughput sorter design from Philippos Papaphilippou, see https://philippos.info/sorter/
+
+The sorter design needs the following signals:
+- 8 bits for the input data 
+- 8 bits for the output date
+- 1 bit for valid in and 1 bit for valid out 
+- 1 bit for flush (to extract the results one by one)
+
+Implemented capacity: 28 8-bit numbers
+Operating frequency: 143 MHz (can also be clocked lower to interface with SAP-3 etc.)
 
 ## Debug
 The register file is serialized and output. Building a deserializer (see reference for testbench) all registers can be evaluated on runtime. As the serializer needs 10 clock cycles per register (thereby 120 clock cycles for the whole register file) the serializer is operated with the not divided clock. If the register change to fast to debug them nops can be inserted to halt the processor and evaluate the registers.
