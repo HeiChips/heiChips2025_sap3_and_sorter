@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: © 2025 Authors
 // SPDX-License-Identifier: Apache-2.0
 
-// Based on a module from a previous sorter design from Philippos Papaphilippou, see https://philippos.info/sorter/
+// Based on a module from a high-throughput sorter design from Philippos Papaphilippou, see https://philippos.info/sorter/
 
 // The sorter design needs the following signals:
 // 8 bits for the input data (through ui_in)
