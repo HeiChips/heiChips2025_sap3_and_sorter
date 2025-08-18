@@ -1,3 +1,16 @@
+# Top sorter
+
+This design implements a linear sorter. It is based on a module from a previous sorter design from Philippos Papaphilippou, see https://philippos.info/sorter/
+
+The sorter design needs the following signals:
+- 8 bits for the input data (through ui_in)
+- 8 bits for the output date (through ui_out)
+- 1 bit for valid in and 1 bit for valid out (uio_in[0], uio_out[2])
+- 1 bit for flush (to extract the results one by one) (through uio_in[1])
+
+Current capacity: 24 8-bit numbers
+Operating frequency: 100 MHz
+
 # HeiChips 2025 Hackathon Template
 
 This repository is the submission template for the HeiChips 2025 Hackathon.
