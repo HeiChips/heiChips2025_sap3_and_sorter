@@ -173,6 +173,7 @@ The sorter design needs the following signals:
 - 1 bit for flush (to extract the results one by one)
 
 Implemented capacity: 28 8-bit numbers
+
 Operating frequency: 143 MHz (can also be clocked lower to interface with SAP-3 etc.)
 
 ## Debug
