@@ -11,7 +11,7 @@
 
 `default_nettype none
 
-`define N 24 // Sorter size, remember to check it in testbench.py in line "N =" as well
+`define N 28 // Sorter size, remember to check it in testbench.py in line "N =" as well
 `define Width 8
 
 //Modes

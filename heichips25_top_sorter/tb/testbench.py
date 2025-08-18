@@ -13,7 +13,7 @@ from cocotb.triggers import Timer, ClockCycles
 
 import random
 
-N = 24 #  Sorter size, remember to check it in heichips_top_sorter.v in line "N =" as well
+N = 28 #  Sorter size, remember to check it in heichips_top_sorter.v in line "N =" as well
 Input_Size = N+100 # if > N (i.e. sorter size), it works as a top N module
 
 @cocotb.test()
