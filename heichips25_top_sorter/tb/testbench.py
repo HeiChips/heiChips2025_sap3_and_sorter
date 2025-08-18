@@ -1,5 +1,7 @@
-# SPDX-FileCopyrightText: © 2025 XXX Authors
+# SPDX-FileCopyrightText: © 2025 Authors
 # SPDX-License-Identifier: Apache-2.0
+
+# Based on a module from a previous sorter design from Philippos Papaphilippou, see https://philippos.info/sorter/
 
 import os
 import sys
@@ -10,6 +12,9 @@ from cocotb.runner import get_runner
 from cocotb.triggers import Timer, ClockCycles
 
 import random
+
+N = 24 #  Sorter size, remember to check it in heichips_top_sorter.v in line "N =" as well
+Input_Size = N+100 # if > N (i.e. sorter size), it works as a top N module
 
 @cocotb.test()
 async def counter_test(dut):
@@ -29,7 +34,7 @@ async def counter_test(dut):
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 10)
 
-    numbers=[random.randint(0,2**8-1) for i in range(22)]
+    numbers=[random.randint(0,2**8-1) for i in range(Input_Size)]
 
     for n in numbers:
         dut.ui_in.value  = n
@@ -43,7 +48,7 @@ async def counter_test(dut):
     await ClockCycles(dut.clk, 2)
 
     numbers.sort()
-    for n in numbers:
+    for n in numbers[Input_Size-N:]:        
         # Ensure there is output
         #print (n, hex(dut.uio_out.value), int(str(dut.uo_out.value),2))
         print ("Exporting "+str(int(str(dut.uo_out.value),2)))
@@ -53,8 +58,7 @@ async def counter_test(dut):
 
     # Wait for 10 clock cycles
     await ClockCycles(dut.clk, 10)
-    
-    
+        
     # cocotb documentation: https://docs.cocotb.org/en/stable/refcard.html
     # cocotb reference card: https://docs.cocotb.org/en/stable/refcard.html
 

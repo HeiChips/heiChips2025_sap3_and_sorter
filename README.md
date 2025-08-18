@@ -1,8 +1,8 @@
 # heiChips2025_project
 
-## Submission draft
+## Submission
 
-(To be submitted as an issue [here](https://github.com/FPGA-Research/heichips25-tapeout/issues))
+(Submitted as an issue [here](https://github.com/FPGA-Research/heichips25-tapeout/issues))
 
 ```
 - Group name

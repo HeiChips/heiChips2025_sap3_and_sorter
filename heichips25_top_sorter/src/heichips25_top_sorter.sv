@@ -1,13 +1,17 @@
-// SPDX-FileCopyrightText: © 2025 XXX Authors
+// SPDX-FileCopyrightText: © 2025 Authors
 // SPDX-License-Identifier: Apache-2.0
 
-// Adapted from the Tiny Tapeout template
+// Based on a module from a previous sorter design from Philippos Papaphilippou, see https://philippos.info/sorter/
+
+// The sorter design needs the following signals:
+// 8 bits for the input data (through ui_in)
+// 8 bits for the output date (through ui_out)
+// 1 bit for valid in and 1 bit for valid out (uio_in[0], uio_out[2])
+// 1 bit for flush (to extract the results one by one) (through uio_in[1])
 
 `default_nettype none
-//`include "topn_v4c.v"
-// Philippos Papaphilippou
 
-`define N 22 // sorter size
+`define N 24 // Sorter size, remember to check it in testbench.py in line "N =" as well
 `define Width 8
 
 //Modes
@@ -15,7 +19,6 @@
 `define DESCENDING 1
 `define ASCENDING  2
 `define FLUSH 3
-
 
 module Topn_module(clk, nreset, invalidate, mode, data_new, data_new_delayed, shift_in, data_in, valid_in, was_valid_in, shift_out, data_out, valid_out, was_valid_out);
 
@@ -58,23 +61,19 @@ module Topn_module(clk, nreset, invalidate, mode, data_new, data_new_delayed, sh
 			end
 			
 			current_local=data_out;
-			valid_out <= valid_out & !invalidate/*d*/;// & (bubble==0);		
+			valid_out <= valid_out & !invalidate;		
 			
-			if ((shift_out==1) /*&& (bubble==0)*/) begin 
+			if ((shift_out==1)) begin 
 				
 				if ((shift_in==1)) begin
-					if ((valid_in==1)/*|invalidated*//*& !invalidated*//*|| (mode==`FLUSH)*/) begin	
+					if ((valid_in==1)) begin	
 						current_local = data_in;
 						valid_local = valid_in;//1
 						//invalidated=0;
 						data_out <= data_in;
 						was_valid_out <= invalidate;//was_valid_in;//0
 						valid_out <= !invalidate;
-						//if(data_in==32'h250)
-						//$display("%h %h %h",current_local, data_in, invalidated);
-						/*if ((valid_in==0)&&(valid_out==1)) begin 
-							bubble<=1;
-						end*/
+
 					end	else begin
 						valid_local = 0;						
 						data_out <= data_in;
@@ -87,9 +86,8 @@ module Topn_module(clk, nreset, invalidate, mode, data_new, data_new_delayed, sh
 					//invalidated=0;
 					was_valid_out <=invalidate;//;0;
 					data_out <= data_new_delayed;
-					//if(data_new_delayed==32'h250)
-					//	$display("%h %h",current_local, data_new_delayed, invalidated);
-					valid_out <= /*1 &*/ /*(mode!=`FLUSH) &??? just removed*/ !invalidate/*d*/;// nreset;
+					
+					valid_out <= !invalidate;
 				end										
 			end	else begin
 				if (pending_flush|(valid_out==0)) begin
@@ -99,8 +97,7 @@ module Topn_module(clk, nreset, invalidate, mode, data_new, data_new_delayed, sh
 					was_valid_out <= was_valid_in;
 					if ((valid_in==0) && (valid_out==1) && (was_valid_out==0)) begin 
 						bubble=1;					
-						//$display("%h", data_out);
-						//shift_out<=0;
+						
 					end	
 					current_local=data_in;
 					valid_local=valid_in;
@@ -108,23 +105,19 @@ module Topn_module(clk, nreset, invalidate, mode, data_new, data_new_delayed, sh
 					if ((valid_in==1) && (valid_out==0) /*&& (was_valid_out==1)*/ && (!pending_flush)) begin
 						valid_out <=0;
 						valid_local=0;
-						if (data_in==32'h11 && data_out==32'h979)
-						$display("%h %h %h",valid_in, valid_out, was_valid_out);
+						
 					end		
 				end else begin 
 					valid_local=valid_out;
-				end
-				
-				//valid_local=valid_out;	
-				//$display("WHAAAAT?");
-			end			
+				end				
+			end		
 		
 
 			if (((mode==`ASCENDING)|(mode==`DESCENDING)) && (bubble==0) /*&&(was_valid_out==0)&& !invalidate*/) begin				
-				if (valid_local && !invalidate/*nreset !invalidated*/ ) begin																		
-					shift_out <= /*invalidated|*/((mode==`ASCENDING) & (data_new<=current_local)) | ((mode==`DESCENDING) & (data_new>=current_local));
+				if (valid_local && !invalidate ) begin																		
+					shift_out <= ((mode==`ASCENDING) & (data_new<=current_local)) | ((mode==`DESCENDING) & (data_new>=current_local));
 				end else begin					
-					shift_out <=1;//!bubble;//1;
+					shift_out <=1;
 				end					
 			end else begin
 				shift_out <=0;
@@ -138,7 +131,6 @@ endmodule //Topn_module
 
 module sorter(clk, rst, flush, data_i, data_i_v, data_o, data_o_v);
 	input clk, rst, flush;
-	//input [1:0] mode;
 	input [`Width-1:0] data_i;
 	input data_i_v;
 	output reg [`Width-1:0] data_o;
@@ -151,7 +143,7 @@ module sorter(clk, rst, flush, data_i, data_i_v, data_o, data_o_v);
 		
 	reg[`Width-1:0] data_new_delayed;
 	
-	assign data_o_v=(was_valid_out[`N-1]);//|valid_out[`N-1]);
+	assign data_o_v=(was_valid_out[`N-1]);
 	
 	wire [1:0] mode = data_i_v?`DESCENDING:`IDLE;
 		
@@ -163,8 +155,6 @@ module sorter(clk, rst, flush, data_i, data_i_v, data_o, data_o_v);
 	end
 
 	genvar i;
-	
-	//reg [1:0] mode=data_i_v?`DESCENDING:`IDLE;
 
 	generate
 		Topn_module module0(clk, !rst, flush, mode, data_i, data_new_delayed, 1'b0, 0, 1'b0, 1'b0, shift_out[0], data_out[0], valid_out[0], was_valid_out[0]);
@@ -181,69 +171,7 @@ module sorter(clk, rst, flush, data_i, data_i_v, data_o, data_o_v);
 endmodule
 
 
-module Top_Level();
-	reg clk, flush, valid, rst;
-	//reg [1:0] mode;
-	reg [`Width-1:0] data_new;
-	
-	wire [`Width-1:0] data_o;
-	wire data_o_v;
-
-	sorter s (clk, rst, flush, data_new, valid, data_o, data_o_v);
-	
-	always @(posedge clk) begin
-		if (data_o_v) begin
-			$display(data_o);
-		end		
-	end
-	
-	
-integer k;
-	initial begin
-
-		flush=0;
-		rst=1;
-		valid=0;
-		//mode=`IDLE;
-
-		
-		clk=1; #10 clk=0; #10 
-		valid=1;
-		rst=0;
-		//reset=0;
-		//mode=	`DESCENDING;//`ASCENDING; //
-		
-		k=1;//`N;		
-		repeat(`N)
-		begin
-			data_new=(k*97)%13;//`N-k;//
-			$display("inserting ",data_new);
-		    clk=1; #10 clk=0; #10 
-
-		    
-		    k=k+1;
-		end
-		//k=1;//`N;
-		
-		//data_new=-1;
-		valid=0;
-		//mode=`IDLE;
-		flush=1;
-				
-		
-		k=k+1;
-		repeat(`N*2)
-		begin
-			clk=1; #10 clk=0; #10 ;
-		end
-		
-		$display("End of Testbench\n");
-
-		
-	end
-endmodule //Top_Level
-
-
+// Adapted from the Tiny Tapeout template
 module heichips25_top_sorter (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
