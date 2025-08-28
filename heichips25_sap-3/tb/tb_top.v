@@ -16,7 +16,7 @@ logic [7:0] uio_out;
 logic [7:0] uio_oe;
 logic       rst_n;
 
-heichips25_template heichips25_template_inst (
+heichips25_sap3 heichips25_sap3_inst (
 	.clk				(clk),
 	.ena        (1'b1),
 	.rst_n      (rst_n),

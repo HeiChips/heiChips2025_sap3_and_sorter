@@ -53,7 +53,7 @@ localparam OP_RLC = 5'b01000;
 localparam OP_RRC = 5'b01001;
 localparam OP_RAL = 5'b01010;
 localparam OP_RAR = 5'b01011;
-localparam OP_DAA = 5'b01100; // Unsupported
+// localparam OP_DAA = 5'b01100; // Unsupported
 localparam OP_CMA = 5'b01101;
 localparam OP_STC = 5'b01110;
 localparam OP_CMC = 5'b01111;
@@ -64,7 +64,8 @@ assign flg_c = (carry == 1'b1);
 assign flg_z = (acc[7:0] == 8'b0);
 assign flg_s = acc[7];
 assign flg_p = ~^acc[7:0];
-
+/* verilator lint_off CASEINCOMPLETE */
+/* verilator lint_off WIDTHEXPAND */
 always @(posedge clk, posedge rst) begin
 	if (rst) begin
 		acc <= 8'b0;

@@ -17,17 +17,17 @@ module ir(
 	output[7:0] out
 );
 
-reg[7:0] ir;
+reg[7:0] ir_reg;
 
 always @(posedge clk, posedge rst) begin
 	if (rst) begin
-		ir <= 8'b0;
+		ir_reg <= 8'b0;
 	end else if (we) begin
-		ir <= bus;
+		ir_reg <= bus;
 	end
 end
 
-assign out = ir;
+assign out = ir_reg;
 
 endmodule
 

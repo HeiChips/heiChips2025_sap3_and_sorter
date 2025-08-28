@@ -1,8 +1,8 @@
 # LibreLane configuration file
 
-DESIGN_NAME: heichips25_template
+DESIGN_NAME: heichips25_sap3
 VERILOG_FILES:
-  - dir::../src/heichips25_template.sv
+  - dir::../src/heichips25_sap3.sv
   - dir::../src/alu.v
   - dir::../src/array_serializer.sv
   - dir::../src/clk_div_param.sv

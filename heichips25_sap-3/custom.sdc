@@ -24,4 +24,4 @@ create_clock [get_ports $clk_input]  -name clk -period 10.0 -waveform {0 10.0}
 set_clock_uncertainty 0.15 [get_clocks clk]
 set_clock_transition 0.25 [get_clocks clk]
 
-create_generated_clock -name clk_div_two -source {clk} -divide_by 2 [get_pins _4213_/Q]
+create_generated_clock -name clk_div_two -source {clk} -divide_by 2 [get_pins \clk_div_param_inst/_2_/Q]

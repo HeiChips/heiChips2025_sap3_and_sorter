@@ -12,7 +12,7 @@ logic [7:0] uio_out;
 logic [7:0] uio_oe;
 logic       rst_n;
 
-heichips25_template heichips25_template_inst (
+heichips25_sap3 hheichips25_sap3_inst (
 	.ui_in      (ui_in),
 	.uo_out     (uo_out),
 	.uio_in     (uio_in),

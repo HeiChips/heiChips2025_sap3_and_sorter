@@ -75,7 +75,7 @@ clock clock(
 );
 
 
-reg_file reg_file(
+reg_file reg_file_inst(
 	.clk(clk),
 	.fast_clock(fast_clock),
 	.rst(rst),
@@ -89,7 +89,7 @@ reg_file reg_file(
 	.start(serial_start_regFile)
 );
 
-ir ir(
+ir ir_inst(
 	.clk(clk),
 	.rst(rst),
 	.we(ir_we),
@@ -98,7 +98,7 @@ ir ir(
 );
 
 
-alu alu(
+alu alu_inst(
 	.clk(clk),
 	.rst(rst),
 	.cs(alu_cs),
@@ -113,7 +113,7 @@ alu alu(
 	.out(alu_out)
 );
 
-controller controller(
+controller controller_inst(
 	.clk(clk),
 	.rst(rst),
 	.opcode(ir_out),

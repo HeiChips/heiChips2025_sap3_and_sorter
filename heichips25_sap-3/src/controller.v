@@ -46,13 +46,13 @@ localparam REG_INC   = 2'b01;
 localparam REG_DEC   = 2'b10;
 localparam REG_INC2  = 2'b11;
 
-localparam REG_BC    = 5'b10000; // unused
-localparam REG_BC_B  = 5'b00000; // unused
-localparam REG_BC_C  = 5'b00001; // unused
+// localparam REG_BC    = 5'b10000; // unused
+// localparam REG_BC_B  = 5'b00000; // unused
+// localparam REG_BC_C  = 5'b00001; // unused
 
-localparam REG_DE    = 5'b10010; // unused
-localparam REG_DE_D  = 5'b00010; // unused
-localparam REG_DE_E  = 5'b00011; // unused
+// localparam REG_DE    = 5'b10010; // unused
+// localparam REG_DE_D  = 5'b00010; // unused
+// localparam REG_DE_E  = 5'b00011; // unused
 
 localparam REG_HL    = 5'b10100;
 localparam REG_HL_H  = 5'b00100;
@@ -75,7 +75,9 @@ reg[3:0] stage;
 reg stage_rst;
 
 assign out = ctrl_word;
-
+/* verilator lint_off WIDTHTRUNC */
+/* verilator lint_off CASEINCOMPLETE */
+/* verilator lint_off WIDTHEXPAND */
 always @(negedge clk, posedge rst) begin
 	if (rst) begin
 		stage <= 0;
