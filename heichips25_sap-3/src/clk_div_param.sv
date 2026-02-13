@@ -25,13 +25,14 @@
 //      output logic clk_out - Divided clock output.
 //
 //------------------------------------------------------------------------------
-module clk_div_param #(
-    parameter int DIVIDE_BY = 4  // division factor (must be even for 50% duty cycle)
-)(
+module clk_div_param (
     input  logic clk,
     input  logic rst_n,
     output logic clk_out
 );
+    logic clk_out_reg;
+
+    localparam DIVIDE_BY = 2;
 
     // calculate width of counter based on DIVIDE_BY
     localparam int COUNTER_WIDTH = $clog2(DIVIDE_BY);
@@ -41,15 +42,20 @@ module clk_div_param #(
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             count <= '0;
-            clk_out <= 1'b0;
+            clk_out_reg <= 1'b0;
         end else begin
             if (count == DIVIDE_BY/2 - 1) begin
-                clk_out <= ~clk_out;
+                clk_out_reg <= ~clk_out_reg;
                 count <= 0;
             end else begin
                 count <= count + 1;
             end
         end
     end
+    
+   sg13g2_buf_16 clock_root (
+    .A(clk_out_reg),
+    .X(clk_out)
+   );
 
 endmodule

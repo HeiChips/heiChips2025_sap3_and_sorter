@@ -49,9 +49,7 @@ module heichips25_sap3 (
 
     logic clk_div_out;
     (* keep_hierarchy = "yes" *)
-    clk_div_param #(
-        .DIVIDE_BY(2)
-    ) clk_div_param_inst (
+    clk_div_param clk_div_param_inst (
         .clk(clk),
         .rst_n(rst_n),
         .clk_out(clk_div_out)
